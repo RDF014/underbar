@@ -220,8 +220,13 @@
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    if(iterator === undefined){
+      var iterator = function(memo){
+        return _.identity(memo);
+      };
+    };
     return !_.every(collection, function(valu){
-      return !!iterator(valu)
+      return !iterator(valu);
     })
   };
 
@@ -245,11 +250,25 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    for(var i = 1; i < arguments.length; i++){
+      for(var key in arguments[i]){
+        obj[key] = arguments[i][key];
+      }
+    }
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    for(var i = 1; i < arguments.length; i++){
+      for(var key in arguments[i]){
+        if( obj[key] === undefined ){
+          obj[key] = arguments[i][key]
+        }
+      }
+    }
+    return obj;
   };
 
 
@@ -293,6 +312,17 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var alreadyDone = {};
+    return function(){
+      var vari = Array.prototype.slice.call(arguments);
+      
+
+
+      if(alreadyDone[vari] === undefined){
+        alreadyDone[vari] = func.apply(this, arguments);
+      }
+      return alreadyDone[vari];
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
