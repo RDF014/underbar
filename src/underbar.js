@@ -207,13 +207,14 @@
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
     if(iterator === undefined){
+      // var iterator = _.identity();
       var iterator = function(memo){
         return _.identity(memo);
       };
     };
     return _.reduce ( collection, function(isTrue, valu){
         return isTrue && !!iterator(valu);
-    }, true);
+    }, true);  
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
@@ -314,12 +315,10 @@
   _.memoize = function(func) {
     var alreadyDone = {};
     return function(){
-      var vari = Array.prototype.slice.call(arguments);
-      
-
-
+      // var vari = Array.prototype.slice.call(arguments);
+      var vari = JSON.stringify(arguments)
       if(alreadyDone[vari] === undefined){
-        alreadyDone[vari] = func.apply(this, arguments);
+        alreadyDone[vari] = func.apply(null, arguments);
       }
       return alreadyDone[vari];
     }
@@ -332,6 +331,16 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    // var args = []
+    var args = Array.prototype.slice.call(arguments[2])
+    
+    // for(var i = 2; i < arguments.length; i++){
+    //   args.push(arguments[i])
+    // }
+    
+    return setTimeout( function(){
+      func.apply(null, args);
+    }, wait);
   };
 
 
@@ -346,6 +355,17 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var newArr = Array.prototype.slice.call(arguments[0]);
+
+    for(var i = 0; i < newArr.length - 1; i++){
+      var orig = newArr[i]
+      var k = Math.ceil(Math.random() * newArr.length -1)
+
+      newArr[i] = newArr[k]
+      newArr[k] = orig
+    }
+
+    return newArr
   };
 
 
