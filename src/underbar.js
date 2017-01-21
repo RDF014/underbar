@@ -90,7 +90,7 @@
     // return newArray;
     return _.reduce(collection, function(memo, valu){
       if(test(valu)){
-        memo.push(valu)
+        memo.push(valu);
       };
       return memo
     },[])
@@ -483,7 +483,28 @@
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    //turn arguments into a true array
+    var argumentsArray = Array.prototype.slice.call(arguments);
+    //add all matching values into a single array (argumentsArray[0])
+    var matched = _.intersection(argumentsArray[0], ...argumentsArray);
+
+    //iterate thru our matched to remove all duplicated values
+    return _.reduce(matched, function(result, valu){
+      //checks result array for non-matching values
+      if(_.indexOf(result, valu) === -1) {
+        result.push(valu);
+        return result;
+      }
+      //checks result array for matching values
+      //removes matching value from result array
+      else {
+        var index = _.indexOf(result, valu);
+        result.splice(index, 1);
+        return result;
+      }
+    }, []);
   };
+
 
   // Returns a function, that, when invoked, will only be triggered at most once
   // during a given window of time.  See the Underbar readme for extra details
@@ -491,7 +512,6 @@
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
+
   };
 }());
-
-//kai is here
