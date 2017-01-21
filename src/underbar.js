@@ -158,27 +158,27 @@
   // Reduces an array or object to a single value by repetitively calling
   // iterator(accumulator, item) for each item. accumulator should be
   // the return value of the previous iterator call.
-  //  
+  //
   // You can pass in a starting value for the accumulator as the third argument
   // to reduce. If no starting value is passed, the first element is used as
   // the accumulator, and is never passed to the iterator. In other words, in
   // the case where a starting value is not passed, the iterator is not invoked
   // until the second element, with the first element as its second argument.
-  //  
+  //
   // Example:
   //   var numbers = [1,2,3];
   //   var sum = _.reduce(numbers, function(total, number){
   //     return total + number;
   //   }, 0); // should be 6
-  //  
+  //
   //   var identity = _.reduce([5], function(total, number){
   //     return total + number * number;
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    
+
     var firstAnalysis = true
-    
+
     _.each(collection, function(valu){
       if(firstAnalysis && accumulator === undefined){
         accumulator = valu;
@@ -214,7 +214,7 @@
     };
     return _.reduce ( collection, function(isTrue, valu){
         return isTrue && !!iterator(valu);
-    }, true);  
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
@@ -332,13 +332,13 @@
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
     // var args = []
-    
+
     // for(var i = 2; i < arguments.length; i++){
     //   args.push(arguments[i])
     // }
 
     var args = Array.prototype.slice.call(arguments, 2)
-    
+
     return setTimeout( function(){
       func.apply(null, args);
     }, wait);
@@ -389,7 +389,7 @@
           method = functionOrKey
         }
         return method.apply(valu, args)
-    }) 
+    })
   };
 
   // Sort the object's values by a criterion produced by an iterator.
@@ -399,13 +399,13 @@
   _.sortBy = function(collection, iterator) {
     if(typeof iterator === 'string'){
       return collection.sort (function (a, b){
-        return a[iterator] - b[iterator]
+        return a[iterator] - b[iterator];
       });
     } else {
       return collection.sort(function (a,b){
         return iterator(a) - iterator(b);
-      })
-    } 
+      });
+    }
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -450,6 +450,34 @@
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
+    var argumentsArray = Array.prototype.slice.call(arguments);
+    var result = [];
+
+    // iterating through elements of first array/argument
+    for (var i = 0; i < argumentsArray[0].length; i++) {
+      // iterating through all the other arrays/arguments
+
+      for (var j = 1; j < argumentsArray.length; j++) {
+        var isMatched = false;
+
+        // iterating through elements of the other arrays/arguments
+        for (var k = 0; k < argumentsArray[j].length; k++) {
+          // value = elements in first array/argument
+          // check = elements in the other array/arguments
+          var value = argumentsArray[0][i];
+          var check = argumentsArray[j][k];
+
+          if (value === check) {
+            isMatched = true;
+          }
+        }
+
+        if (isMatched){
+          result.push(value);
+        }
+      }
+    }
+    return result;
   };
 
   // Take the difference between one array and a number of other arrays.
@@ -466,4 +494,4 @@
   };
 }());
 
-
+//kai is here
