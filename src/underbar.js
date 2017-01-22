@@ -505,13 +505,53 @@
     }, []);
   };
 
-
   // Returns a function, that, when invoked, will only be triggered at most once
   // during a given window of time.  See the Underbar readme for extra details
   // on this function.
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
+    //var timer and queued
+    //function
+      //when run first time: run immediatly, set wait time
+      //when called a 2nd time within the wait time: queued function
+      //when 1st is done: immediatly run queued function and reset wait time
+    //
+
+    //call intital function
+    //isScheduled ==> boolean ==> default false
+    //if (isScheduled) {
+      //ignore subsequent calls
+    //}
+    //isQueued  ==> scheduled function (2nd call)
+    //invoke function, schedule wait time (100ms)
+      // if there is another invocation,
+      //change boolean (F => T), calculate delay time
+      //invoke after delay time
+
+    //reset flags after 100ms (wait time)
+    //calculate time left for 2nd call to invoke
+
+
+
+
+
+
+
+
+
+
+
+
+    //100
+  //   1st call (100ms) ==> immediate
+  //   2nd call (@30ms) ==> invoked immediately after the remaining time (still need to wait 70ms, so schedule for 70ms),
+  // ignore 3rd call b/c isScheduled flags are true
+  //   all subsequent calls will simply return the value from 1st call
+  // 100ms  2nd call returns?
+  // 50ms   3rd call
+
+
 
   };
 }());
